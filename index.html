@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+        integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+        integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <title>Neutrition Calculator - Chalupa</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.1.1/chart.min.js"
+        integrity="sha512-BqNYFBAzGfZDnIWSAEGZSD/QFKeVxms2dIBPfw11gZubWwKUjEgmFUtUls8vZ6xTRZN/jaXGHD/ZaxD9+fDo0A=="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"
+        integrity="sha512-p7Ey2nBhKYEi9yh0iDs+GMA0ttebOqVl3OO2oWRzRxtDoN/RedyYcHFUJZhMVi8NKRdEA7n+9NTNQX/kFIZgNw=="
+        crossorigin="anonymous"></script>
+    <style>
+        .meal-title {
+            color: #451400;
+        }
+
+        .meals-card {
+            height: 250px;
+        }
+
+        .submeals-card {
+            height: 320px;
+            width: 165px;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .submeals-div {
+                width: 50% !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg container ">
+        <div class="col-md-3 mt-3">
+            <img src="resources/images/logo/chalupa-logo.png" class="navbar-brand" height="75px" width="250">
+        </div>
+        <div class="col-md-6 offset-3">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav text-center ">
+                    <a class="nav-item nav-link text-dark mx-2 fw-bold" href="#">MENU</a>
+                    <a class="nav-item nav-link text-dark mx-2 fw-bold" href="#">RAVINTOLAT</a>
+                    <a class="nav-item nav-link text-dark mx-2 fw-bold" href="#">CATERING</a>
+                    <a class="nav-item nav-link text-dark mx-2 fw-bold" href="#">TARINA</a>
+                    <a class="nav-item nav-link text-dark mx-2 fw-bold" href="#">OTA YHTEYTTA</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div id="meals-container" class="container">
+        <div class="row meals-row">
+        </div>
+    </div>
+    <div id="submeals-container" class="container mt-5 mb-5">
+        <div class="row submeals-row">
+            <div class="col-md-8 row">
+                <div id="submeals-div" class="col-md-12 row">
+
+                </div>
+            </div>
+            <div class="col-md-4" id="nutrition-chart">
+            </div>
+        </div>
+        <div class="row" id="elementsModal-row">
+        </div>
+    </div>
+    <footer style="background-color: #292524;" class="text-center text-white pt-5">
+        <p class="text-white">Lataa Chalupan mobiilisovellus käyttöösi, kun käytät sivuja mobiililaitteella. Säästät
+            selvää rahaa.</p>
+        <!-- Grid container -->
+        <div class="container p-4 pb-0">
+            <hr>
+            <!-- Section: Social media -->
+            <section class="mb-4">
+                <!-- Facebook -->
+                <a class="btn rounded-pill text-dark bg-white btn-floating m-1" href="#" role="button">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+
+                <!-- Twitter -->
+                <a class="btn rounded-pill text-dark bg-white m-1" href="#" role="button">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </section>
+            <!-- Section: Social media -->
+        </div>
+        <!-- Grid container -->
+
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            <p class="text-white">© Copyright Chalupa 2020. All Rights Reserved. | Tietosuojaseloste</p>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <script>
+        var selectedSubMealId;
+        var meals = [
+            {
+                mealid: 0,
+                name: 'Burrito',
+                imgpath: 'resources/images/burrito-beef.png',
+                submeals: [
+                    {
+                        includedIngredients: [
+                            { id: 0, name: 'Flour Tortilla', imgpath: 'resources/images/burrito-tortilla.jpg', mealweight: 320, energy: 320, totalfat: 9, saturatedfat: 0.5, carbohydrates: 50, sugars: 0, protein: 50, salt: 0.5 },
+                            { id: 1, name: 'Minced Beef', imgpath: 'resources/images/minced-beef.jpg', mealweight: 150, energy: 242, totalfat: 18, saturatedfat: 7.9, carbohydrates: 3.2, sugars: 3.2, protein: 16.5, salt: 0.7 },
+                            { id: 2, name: 'Chicken', imgpath: 'resources/images/chicken.png', mealweight: 180, energy: 180, totalfat: 7, saturatedfat: 3, carbohydrates: 0, sugars: 0, protein: 10, salt: 0.8 },
+                            { id: 3, name: 'Pork Carnitas', imgpath: 'resources/images/pork-carnitas.jpg', mealweight: 150, energy: 277, totalfat: 18, saturatedfat: 7.2, carbohydrates: 0.2, sugars: 0.2, protein: 27, salt: 0.3 },
+                            { id: 4, name: 'Seitan', imgpath: 'resources/images/seitan.jpg', mealweight: 120, energy: 325, totalfat: 13.2, saturatedfat: 13.5, carbohydrates: 16, sugars: 0, protein: 35.5, salt: 1.8 },
+                            { id: 5, name: 'Smoked Tofu', imgpath: 'resources/images/smoked-tofu.png', mealweight: 70, energy: 107, totalfat: 5.5, saturatedfat: 0.7, carbohydrates: 1.4, sugars: 0, protein: 12, salt: 0.8 },
+                            { id: 6, name: 'Pulled Peas', imgpath: 'resources/images/pulled-peas.png', mealweight: 30, energy: 52, totalfat: 1.1, saturatedfat: 0.2, carbohydrates: 0.6, sugars: 0.1, protein: 9.3, salt: 0.7 }
+                        ]
+                    },
+                    {
+                        fillings: [
+                            { id: 0, name: 'Mexican Beans', imgpath: 'resources/images/mexican-beans.jpg', mealweight: 45, energy: 38, totalfat: 0.2, saturatedfat: 0, carbohydrates: 6.6, sugars: 0, protein: 2.4, salt: 0 },
+                            { id: 1, name: 'Salad', imgpath: 'resources/images/salad.png', mealweight: 30, energy: 8, totalfat: 0.1, saturatedfat: 0, carbohydrates: 1.4, sugars: 0.5, protein: 0.6, salt: 0 },
+                            { id: 2, name: 'Grated Cheese', imgpath: 'resources/images/grated-cheese.jpg', mealweight: 20, energy: 76, totalfat: 4.6, saturatedfat: 3.2, carbohydrates: 0.4, sugars: 0, protein: 4.8, salt: 0.4 },
+                            { id: 3, name: 'Guacamole', imgpath: 'resources/images/guacamole.jpg', mealweight: 40, energy: 79, totalfat: 7.8, saturatedfat: 1.1, carbohydrates: 2.7, sugars: 2.4, protein: 1, salt: 0.6 },
+                            { id: 4, name: 'Coriander', imgpath: 'resources/images/coriander.jpg', mealweight: 5, energy: 1, totalfat: 0, saturatedfat: 0, carbohydrates: 0, sugars: 0, protein: 0.1, salt: 0 },
+                            { id: 5, name: 'Lime', imgpath: 'resources/images/lime.jpg', mealweight: 5, energy: 1.5, totalfat: 0, saturatedfat: 0, carbohydrates: 0.5, sugars: 0.1, protein: 0, salt: 0 }
+                        ]
+                    },
+                    {
+                        ricebeans: [
+                            { id: 0, name: 'Pico De Gallo', imgpath: 'resources/images/pico-de-galo.jpg', mealweight: 60, energy: 13, totalfat: 0.2, saturatedfat: 0, carbohydrates: 3, sugars: 2.9, protein: 0.4, salt: 0.9 },
+                            { id: 1, name: 'Salsa Verde', imgpath: 'resources/images/salsa-verde.jpg', mealweight: 100, energy: 28, totalfat: 0.3, saturatedfat: 0, carbohydrates: 6, sugars: 6, protein: 0.9, salt: 1.5 },
+                            { id: 2, name: 'Corn Salsa', imgpath: 'resources/images/corn-salsa.jpg', mealweight: 100, energy: 55, totalfat: 0.2, saturatedfat: 0, carbohydrates: 11, sugars: 11, protein: 2.5, salt: 1.5 }
+                        ]
+                    },
+                    {
+                        topitoff: [
+                            { id: 0, name: 'Chipotle Sauce', imgpath: 'resources/images/chipotle-sauce.png', mealweight: 10, energy: 3, totalfat: 0, saturatedfat: 0, carbohydrates: 0.3, sugars: 0, protein: 0, salt: 0.1 },
+                            { id: 1, name: 'Sour Cream', imgpath: 'resources/images/sour-cream.jpg', mealweight: 20, energy: 54, totalfat: 5.6, saturatedfat: 3.6, carbohydrates: 0.5, sugars: 0.5, protein: 0.5, salt: 0 }
+                        ]
+                    }
+                ]
+            },
+            {
+                mealid: 1,
+                name: 'TACO',
+                imgpath: 'resources/images/pork-avocado-taco.png',
+                submeals: [
+                    {
+                    includedIngredients: [
+                            { id: 0, name: 'Corn Tortilla', imgpath: 'resources/images/corn-tortilla.jpg', mealweight: 48, energy: 108, totalfat: 1, saturatedfat: 0.1, carbohydrates: 23.2, sugars: 0.3, protein: 2, salt: 0.2 },
+                            { id: 1, name: 'Minced Beef', imgpath: 'resources/images/minced-beef.jpg', mealweight: 150, energy: 242, totalfat: 18, saturatedfat: 7.9, carbohydrates: 3.2, sugars: 3.2, protein: 16.5, salt: 0.7 },
+                            { id: 2, name: 'Chicken', imgpath: 'resources/images/chicken.png', mealweight: 180, energy: 180, totalfat: 7, saturatedfat: 3, carbohydrates: 0, sugars: 0, protein: 10, salt: 0.8 },
+                            { id: 3, name: 'Pork Carnitas', imgpath: 'resources/images/pork-carnitas.jpg', mealweight: 150, energy: 277, totalfat: 18, saturatedfat: 7.2, carbohydrates: 0.2, sugars: 0.2, protein: 27, salt: 0.3 },
+                            { id: 4, name: 'Seitan', imgpath: 'resources/images/seitan.jpg', mealweight: 120, energy: 325, totalfat: 13.2, saturatedfat: 13.5, carbohydrates: 16, sugars: 0, protein: 35.5, salt: 1.8 },
+                            { id: 5, name: 'Smoked Tofu', imgpath: 'resources/images/smoked-tofu.png', mealweight: 70, energy: 107, totalfat: 5.5, saturatedfat: 0.7, carbohydrates: 1.4, sugars: 0, protein: 12, salt: 0.8 },
+                            { id: 6, name: 'Pulled Peas', imgpath: 'resources/images/pulled-peas.png', mealweight: 30, energy: 52, totalfat: 1.1, saturatedfat: 0.2, carbohydrates: 0.6, sugars: 0.1, protein: 9.3, salt: 0.7 }
+                        ]
+                    },
+                    {
+                        fillings: [
+                            { id: 0, name: 'Grated Cheese', imgpath: 'resources/images/grated-cheese.jpg', mealweight: 20, energy: 76, totalfat: 4.6, saturatedfat: 3.2, carbohydrates: 0.4, sugars: 0, protein: 4.8, salt: 0.4 },
+                            { id: 1, name: 'Guacamole', imgpath: 'resources/images/guacamole.jpg', mealweight: 40, energy: 79, totalfat: 7.8, saturatedfat: 1.1, carbohydrates: 2.7, sugars: 2.4, protein: 1, salt: 0.6 },
+                            { id: 2, name: 'Corncob', imgpath: 'resources/images/corncob.jpg', mealweight: 112, energy: 134, totalfat: 2.1, saturatedfat: 0.4, carbohydrates: 20.1, sugars: 0, protein: 6, salt: 0 },
+                            { id: 3, name: 'Coriander', imgpath: 'resources/images/coriander.jpg', mealweight: 5, energy: 1, totalfat: 0, saturatedfat: 0, carbohydrates: 0, sugars: 0, protein: 0.1, salt: 0 },
+                            { id: 4, name: 'Lime', imgpath: 'resources/images/lime.jpg', mealweight: 5, energy: 1.5, totalfat: 0, saturatedfat: 0, carbohydrates: 0.5, sugars: 0.1, protein: 0, salt: 0 }
+                        ]
+                    },
+                    {
+                        ricebeans: [
+                            { id: 0, name: 'Pico De Gallo', imgpath: 'resources/images/pico-de-galo.jpg', mealweight: 60, energy: 13, totalfat: 0.2, saturatedfat: 0, carbohydrates: 3, sugars: 2.9, protein: 0.4, salt: 0.9 },
+                            { id: 1, name: 'Salsa Verde', imgpath: 'resources/images/salsa-verde.jpg', mealweight: 100, energy: 28, totalfat: 0.3, saturatedfat: 0, carbohydrates: 6, sugars: 6, protein: 0.9, salt: 1.5 },
+                            { id: 2, name: 'Corn Salsa', imgpath: 'resources/images/corn-salsa.jpg', mealweight: 100, energy: 55, totalfat: 0.2, saturatedfat: 0, carbohydrates: 11, sugars: 11, protein: 2.5, salt: 1.5 }
+                        ]
+                    },
+                    {
+                        topitoff: [
+                            { id: 0, name: 'Chipotle Sauce', imgpath: 'resources/images/chipotle-sauce.png', mealweight: 10, energy: 3, totalfat: 0, saturatedfat: 0, carbohydrates: 0.3, sugars: 0, protein: 0, salt: 0.1 },
+                            { id: 1, name: 'Sour Cream', imgpath: 'resources/images/sour-cream.jpg', mealweight: 20, energy: 54, totalfat: 5.6, saturatedfat: 3.6, carbohydrates: 0.5, sugars: 0.5, protein: 0.5, salt: 0 }
+                        ]
+                    }
+                ]
+            },
+            {
+                mealid: 2,
+                name: 'Supreme',
+                imgpath: 'resources/images/chalupa-supreme-meat.png',
+                submeals: [
+                    {
+                        includedIngredients: [
+                            { id: 0, name: 'Tortilla Chips', imgpath: 'resources/images/tortilla-chips.jpg', mealweight: 60, energy: 287, totalfat: 12, saturatedfat: 1, carbohydrates: 39, sugars: 0.7, protein: 3.8, salt: 0.5 },
+                            { id: 1, name: 'Minced Beef', imgpath: 'resources/images/minced-beef.jpg', mealweight: 150, energy: 242, totalfat: 18, saturatedfat: 7.9, carbohydrates: 3.2, sugars: 3.2, protein: 16.5, salt: 0.7 },
+                            { id: 2, name: 'Chicken', imgpath: 'resources/images/chicken.png', mealweight: 180, energy: 180, totalfat: 7, saturatedfat: 3, carbohydrates: 0, sugars: 0, protein: 10, salt: 0.8 },
+                            { id: 3, name: 'Pork Carnitas', imgpath: 'resources/images/pork-carnitas.jpg', mealweight: 150, energy: 277, totalfat: 18, saturatedfat: 7.2, carbohydrates: 0.2, sugars: 0.2, protein: 27, salt: 0.3 },
+                            { id: 4, name: 'Seitan', imgpath: 'resources/images/seitan.jpg', mealweight: 120, energy: 325, totalfat: 13.2, saturatedfat: 13.5, carbohydrates: 16, sugars: 0, protein: 35.5, salt: 1.8 },
+                            { id: 5, name: 'Smoked Tofu', imgpath: 'resources/images/smoked-tofu.png', mealweight: 70, energy: 107, totalfat: 5.5, saturatedfat: 0.7, carbohydrates: 1.4, sugars: 0, protein: 12, salt: 0.8 },
+                            { id: 6, name: 'Pulled Peas', imgpath: 'resources/images/pulled-peas.png', mealweight: 30, energy: 52, totalfat: 1.1, saturatedfat: 0.2, carbohydrates: 0.6, sugars: 0.1, protein: 9.3, salt: 0.7 }
+                        ]
+                    },
+                    {
+                        fillings: [
+                            { id: 0, name: 'Grated Cheese', imgpath: 'resources/images/grated-cheese.jpg', mealweight: 20, energy: 76, totalfat: 4.6, saturatedfat: 3.2, carbohydrates: 0.4, sugars: 0, protein: 4.8, salt: 0.4 },
+                            { id: 1, name: 'Guacamole', imgpath: 'resources/images/guacamole.jpg', mealweight: 40, energy: 79, totalfat: 7.8, saturatedfat: 1.1, carbohydrates: 2.7, sugars: 2.4, protein: 1, salt: 0.6 },
+                            { id: 2, name: 'Coriander', imgpath: 'resources/images/coriander.jpg', mealweight: 5, energy: 1, totalfat: 0, saturatedfat: 0, carbohydrates: 0, sugars: 0, protein: 0.1, salt: 0 },
+                            { id: 3, name: 'Lime', imgpath: 'resources/images/lime.jpg', mealweight: 5, energy: 1.5, totalfat: 0, saturatedfat: 0, carbohydrates: 0.5, sugars: 0.1, protein: 0, salt: 0 }
+                        ]
+                    },
+                    {
+                        ricebeans: [
+                            { id: 0, name: 'Pico De Gallo', imgpath: 'resources/images/pico-de-galo.jpg', mealweight: 60, energy: 13, totalfat: 0.2, saturatedfat: 0, carbohydrates: 3, sugars: 2.9, protein: 0.4, salt: 0.9 },
+                            { id: 1, name: 'Salsa Verde', imgpath: 'resources/images/salsa-verde.jpg', mealweight: 100, energy: 28, totalfat: 0.3, saturatedfat: 0, carbohydrates: 6, sugars: 6, protein: 0.9, salt: 1.5 },
+                            { id: 2, name: 'Corn Salsa', imgpath: 'resources/images/corn-salsa.jpg', mealweight: 100, energy: 55, totalfat: 0.2, saturatedfat: 0, carbohydrates: 11, sugars: 11, protein: 2.5, salt: 1.5 }
+                        ]
+                    },
+                    {
+                        topitoff: [
+                            { id: 0, name: 'Chipotle Sauce', imgpath: 'resources/images/chipotle-sauce.png', mealweight: 10, energy: 3, totalfat: 0, saturatedfat: 0, carbohydrates: 0.3, sugars: 0, protein: 0, salt: 0.1 },
+                            { id: 1, name: 'Sour Cream', imgpath: 'resources/images/sour-cream.jpg', mealweight: 20, energy: 54, totalfat: 5.6, saturatedfat: 3.6, carbohydrates: 0.5, sugars: 0.5, protein: 0.5, salt: 0 }
+                        ]
+                    }
+                ]
+            },
+            {
+                mealid: 3,
+                name: 'QUESADILLA',
+                imgpath: 'resources/images/chicken-avodoca-quesdilla.png',
+                submeals: [
+                    {
+                        includedIngredients: [
+                            { id: 0, name: 'Wheat Tortilla', imgpath: 'resources/images/wheat-tortilla.jpg', mealweight: 100, energy: 248, totalfat: 5.5, saturatedfat: 2.4, carbohydrates: 41.6, sugars: 3.6, protein: 6.8, salt: 1 },
+                            { id: 1, name: 'Minced Beef', imgpath: 'resources/images/minced-beef.jpg', mealweight: 150, energy: 242, totalfat: 18, saturatedfat: 7.9, carbohydrates: 3.2, sugars: 3.2, protein: 16.5, salt: 0.7 },
+                            { id: 2, name: 'Chicken', imgpath: 'resources/images/chicken.png', mealweight: 180, energy: 180, totalfat: 7, saturatedfat: 3, carbohydrates: 0, sugars: 0, protein: 10, salt: 0.8 },
+                            { id: 3, name: 'Pork Carnitas', imgpath: 'resources/images/pork-carnitas.jpg', mealweight: 150, energy: 277, totalfat: 18, saturatedfat: 7.2, carbohydrates: 0.2, sugars: 0.2, protein: 27, salt: 0.3 },
+                            { id: 4, name: 'Seitan', imgpath: 'resources/images/seitan.jpg', mealweight: 120, energy: 325, totalfat: 13.2, saturatedfat: 13.5, carbohydrates: 16, sugars: 0, protein: 35.5, salt: 1.8 },
+                            { id: 5, name: 'Smoked Tofu', imgpath: 'resources/images/smoked-tofu.png', mealweight: 70, energy: 107, totalfat: 5.5, saturatedfat: 0.7, carbohydrates: 1.4, sugars: 0, protein: 12, salt: 0.8 },
+                            { id: 6, name: 'Pulled Peas', imgpath: 'resources/images/pulled-peas.png', mealweight: 30, energy: 52, totalfat: 1.1, saturatedfat: 0.2, carbohydrates: 0.6, sugars: 0.1, protein: 9.3, salt: 0.7 }
+                        ]
+                    },
+                    {
+                        fillings: [
+                            { id: 0, name: 'Grated Cheese', imgpath: 'resources/images/grated-cheese.jpg', mealweight: 20, energy: 76, totalfat: 4.6, saturatedfat: 3.2, carbohydrates: 0.4, sugars: 0, protein: 4.8, salt: 0.4 },
+                            { id: 1, name: 'Guacamole', imgpath: 'resources/images/guacamole.jpg', mealweight: 40, energy: 79, totalfat: 7.8, saturatedfat: 1.1, carbohydrates: 2.7, sugars: 2.4, protein: 1, salt: 0.6 },
+                            { id: 2, name: 'Coriander', imgpath: 'resources/images/coriander.jpg', mealweight: 5, energy: 1, totalfat: 0, saturatedfat: 0, carbohydrates: 0, sugars: 0, protein: 0.1, salt: 0 },
+                            { id: 3, name: 'Lime', imgpath: 'resources/images/lime.jpg', mealweight: 5, energy: 1.5, totalfat: 0, saturatedfat: 0, carbohydrates: 0.5, sugars: 0.1, protein: 0, salt: 0 }
+                        ]
+                    },
+                    {
+                        ricebeans: [
+                            { id: 0, name: 'Pico De Gallo', imgpath: 'resources/images/pico-de-galo.jpg', mealweight: 60, energy: 13, totalfat: 0.2, saturatedfat: 0, carbohydrates: 3, sugars: 2.9, protein: 0.4, salt: 0.9 },
+                            { id: 1, name: 'Salsa Verde', imgpath: 'resources/images/salsa-verde.jpg', mealweight: 100, energy: 28, totalfat: 0.3, saturatedfat: 0, carbohydrates: 6, sugars: 6, protein: 0.9, salt: 1.5 },
+                            { id: 2, name: 'Corn Salsa', imgpath: 'resources/images/corn-salsa.jpg', mealweight: 100, energy: 55, totalfat: 0.2, saturatedfat: 0, carbohydrates: 11, sugars: 11, protein: 2.5, salt: 1.5 }
+                        ]
+                    },
+                    {
+                        topitoff: [
+                            { id: 0, name: 'Chipotle Sauce', imgpath: 'resources/images/chipotle-sauce.png', mealweight: 10, energy: 3, totalfat: 0, saturatedfat: 0, carbohydrates: 0.3, sugars: 0, protein: 0, salt: 0.1 },
+                            { id: 1, name: 'Sour Cream', imgpath: 'resources/images/sour-cream.jpg', mealweight: 20, energy: 54, totalfat: 5.6, saturatedfat: 3.6, carbohydrates: 0.5, sugars: 0.5, protein: 0.5, salt: 0 }
+                        ]
+                    }
+                ]
+            },
+            {
+                mealid: 4,
+                name: 'Salad',
+                imgpath: 'resources/images/veggie-boost-salad.png',
+                submeals: [
+                    {
+                        includedIngredients: [
+                            { id: 0, name: 'Salad', imgpath: 'resources/images/salad.png', mealweight: 30, energy: 8, totalfat: 0.1, saturatedfat: 0, carbohydrates: 1.4, sugars: 0.5, protein: 0.6, salt: 0 },
+                            { id: 1, name: 'Minced Beef', imgpath: 'resources/images/minced-beef.jpg', mealweight: 150, energy: 242, totalfat: 18, saturatedfat: 7.9, carbohydrates: 3.2, sugars: 3.2, protein: 16.5, salt: 0.7 },
+                            { id: 2, name: 'Chicken', imgpath: 'resources/images/chicken.png', mealweight: 180, energy: 180, totalfat: 7, saturatedfat: 3, carbohydrates: 0, sugars: 0, protein: 10, salt: 0.8 },
+                            { id: 3, name: 'Pork Carnitas', imgpath: 'resources/images/pork-carnitas.jpg', mealweight: 150, energy: 277, totalfat: 18, saturatedfat: 7.2, carbohydrates: 0.2, sugars: 0.2, protein: 27, salt: 0.3 },
+                            { id: 4, name: 'Seitan', imgpath: 'resources/images/seitan.jpg', mealweight: 120, energy: 325, totalfat: 13.2, saturatedfat: 13.5, carbohydrates: 16, sugars: 0, protein: 35.5, salt: 1.8 },
+                            { id: 5, name: 'Smoked Tofu', imgpath: 'resources/images/smoked-tofu.png', mealweight: 70, energy: 107, totalfat: 5.5, saturatedfat: 0.7, carbohydrates: 1.4, sugars: 0, protein: 12, salt: 0.8 },
+                            { id: 6, name: 'Pulled Peas', imgpath: 'resources/images/pulled-peas.png', mealweight: 30, energy: 52, totalfat: 1.1, saturatedfat: 0.2, carbohydrates: 0.6, sugars: 0.1, protein: 9.3, salt: 0.7 }
+                        ]
+                    },
+                    {
+                        fillings: [
+                            { id: 0, name: 'Corncob', imgpath: 'resources/images/corncob.jpg', mealweight: 112, energy: 134, totalfat: 2.1, saturatedfat: 0.4, carbohydrates: 20.1, sugars: 0, protein: 6, salt: 0 },
+                            { id: 1, name: 'Coriander', imgpath: 'resources/images/coriander.jpg', mealweight: 5, energy: 1, totalfat: 0, saturatedfat: 0, carbohydrates: 0, sugars: 0, protein: 0.1, salt: 0 },
+                            { id: 2, name: 'Lime', imgpath: 'resources/images/lime.jpg', mealweight: 5, energy: 1.5, totalfat: 0, saturatedfat: 0, carbohydrates: 0.5, sugars: 0.1, protein: 0, salt: 0 },
+                            { id: 3, name: 'Olive Oil', imgpath: 'resources/images/olive-oil.jpg', mealweight: 5, energy: 44.2, totalfat: 5, saturatedfat: 0.7, carbohydrates: 0, sugars: 0, protein: 0, salt: 0 }
+                        ]
+                    },
+                    {
+                        ricebeans: [
+                            { id: 0, name: 'Pico De Gallo', imgpath: 'resources/images/pico-de-galo.jpg', mealweight: 60, energy: 13, totalfat: 0.2, saturatedfat: 0, carbohydrates: 3, sugars: 2.9, protein: 0.4, salt: 0.9 },
+                            { id: 1, name: 'Salsa Verde', imgpath: 'resources/images/salsa-verde.jpg', mealweight: 100, energy: 28, totalfat: 0.3, saturatedfat: 0, carbohydrates: 6, sugars: 6, protein: 0.9, salt: 1.5 },
+                            { id: 2, name: 'Corn Salsa', imgpath: 'resources/images/corn-salsa.jpg', mealweight: 100, energy: 55, totalfat: 0.2, saturatedfat: 0, carbohydrates: 11, sugars: 11, protein: 2.5, salt: 1.5 }
+                        ]
+                    },
+                    {
+                        topitoff: [
+                            { id: 0, name: 'Chipotle Sauce', imgpath: 'resources/images/chipotle-sauce.png', mealweight: 10, energy: 3, totalfat: 0, saturatedfat: 0, carbohydrates: 0.3, sugars: 0, protein: 0, salt: 0.1 },
+                            { id: 1, name: 'Sour Cream', imgpath: 'resources/images/sour-cream.jpg', mealweight: 20, energy: 54, totalfat: 5.6, saturatedfat: 3.6, carbohydrates: 0.5, sugars: 0.5, protein: 0.5, salt: 0 }
+                        ]
+                    }
+                ]
+            }
+        ]
+        var TotalNutrition =
+            { totalcalories: 0, totalfat: 0, totalcarbohydrates: 0, totalsugars: 0, totalprotein: 0, totalsalt: 0 };
+        let mealsrow = "";
+        for (let i = 0; i < meals.length; i++) {
+            mealsrow += `<div class="col-md-4 mt-3" id="meal-${i}">
+                <div class="card meals-card">
+                    <img class="ms-4" src="${meals[i].imgpath}" alt="${meals[i].name}" height="158" width="294">
+                    <div class="card-body mt-4">
+                        <div class="card-title text-center">
+                            <h3 class="meal-title fw-bold text-uppercase">${meals[i].name}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        }
+        document.querySelector('#meals-container > .meals-row').innerHTML = mealsrow;
+        for (let i = 0; i < meals.length; i++) {
+            document.getElementById('meal-' + i).addEventListener('click', function () {
+                mealClicked(i);
+            });
+        }
+
+        function mealClicked(mid) {
+            for (let i = 0; i < meals.length; i++) {
+                document.getElementById('meal-' + i).style.display = "none";
+            }
+
+            showSubMeals(mid);
+        }
+
+        function showSubMeals(mid) {
+            let submealrows = "";
+
+            // INCLUDED INGREDIENTS START
+            submealrows = `<div class="card">
+                        <div class="card-header text-center text-white bg-primary rounded-pill">
+                            MAIN FILLING
+                        </div>
+                        <div class="card-body row">`;
+            for (let i = 0; i < meals[mid].submeals[0].includedIngredients.length; i++) {
+                submealrows += `<div class="col-md-3 col-sm-6 mt-2 submeals-div" id="submeal-${i}">
+                <div class="card submeals-card" id="submeal-card-${i}">
+                    <div class="card-header text-center">
+                        <h6 class="meal-title text-uppercase">${meals[mid].submeals[0].includedIngredients[i].name}</h6>
+                        </div>
+                    <img src="${meals[mid].submeals[0].includedIngredients[i].imgpath}" alt="${meals[mid].submeals[0].includedIngredients[i].name}" height="163" width="163">
+                    <div class="card-body">
+                        <div class=" input-group">
+                            <button id="minus-button-${0}${i}" onclick="updateQuantity(-1,${mid},${0},${i})" class="btn btn-primary rounded-pill" disabled="true"><i class="fas fa-minus-circle"></i></button>
+                            <input type="text" class="form-control border-0 bg-white text-center" id="submeal-quantity-${0}${i}" name="submeal-quantity" value="0" disabled="true">
+                            <button id="plus-button-${0}${i}" onclick="updateQuantity(1,${mid},${0},${i})" class="btn btn-primary rounded-pill"><i class="fas fa-plus-circle"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center" id="submeals-footer-${0}" data-bs-toggle="modal" data-bs-target="#elementsModal">
+                        <h6 class="meal-title text-uppercase">${meals[mid].submeals[0].includedIngredients[i].mealweight} G <i class="fas fa-chevron-right"></i></h6>
+                    </div>
+                </div>
+            </div>`
+            }
+            submealrows += '</div></div>';
+            // INCLUDED INGREDIENTS END
+
+            // FILLINGS START
+            submealrows += `<div class="card">
+                        <div class="card-header text-center text-white bg-primary rounded-pill">
+                            EXTRA
+                        </div>
+                        <div class="card-body row">`;
+            for (let i = 0; i < meals[mid].submeals[1].fillings.length; i++) {
+                submealrows += `<div class="col-md-3 col-sm-6 mt-2 submeals-div" id="submeal-${i}">
+                <div class="card submeals-card" id="submeal-card-${i}">
+                    <div class="card-header text-center">
+                        <h6 class="meal-title text-uppercase">${meals[mid].submeals[1].fillings[i].name}</h6>
+                        </div>
+                    <img src="${meals[mid].submeals[1].fillings[i].imgpath}" alt="${meals[mid].submeals[1].fillings[i].name}" height="163" width="163">
+                    <div class="card-body">
+                        <div class=" input-group">
+                            <button id="minus-button-${1}${i}" onclick="updateQuantity(-1,${mid},${1},${i})" class="btn btn-primary rounded-pill" disabled="true"><i class="fas fa-minus-circle"></i></button>
+                            <input type="text" class="form-control border-0 bg-white text-center" id="submeal-quantity-${1}${i}" name="submeal-quantity" value="0" disabled="true">
+                            <button id="plus-button-${1}${i}" onclick="updateQuantity(1,${mid},${1},${i})" class="btn btn-primary rounded-pill"><i class="fas fa-plus-circle"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center" id="submeals-footer-${1}" data-bs-toggle="modal" data-bs-target="#elementsModal">
+                        <h6 class="meal-title text-uppercase">${meals[mid].submeals[1].fillings[i].mealweight} G <i class="fas fa-chevron-right"></i></h6>
+                    </div>
+                </div>
+            </div>`;
+            }
+            submealrows += '</div></div>';
+
+            // FILLINGS END
+
+            // SALSA START
+
+            submealrows += `<div class="card">
+                        <div class="card-header text-center text-white bg-primary rounded-pill">
+                            SALSA
+                        </div>
+                        <div class="card-body row">`;
+            for (let i = 0; i < meals[mid].submeals[2].ricebeans.length; i++) {
+                submealrows += `<div class="col-md-3 col-sm-6 mt-2 submeals-div" id="submeal-${i}">
+                <div class="card submeals-card" id="submeal-card-${i}">
+                    <div class="card-header text-center">
+                        <h6 class="meal-title text-uppercase">${meals[mid].submeals[2].ricebeans[i].name}</h6>
+                        </div>
+                    <img src="${meals[mid].submeals[2].ricebeans[i].imgpath}" alt="${meals[mid].submeals[2].ricebeans[i].name}" height="163" width="163">
+                    <div class="card-body">
+                        <div class=" input-group">
+                            <button id="minus-button-${2}${i}" onclick="updateQuantity(-1,${mid},${2},${i})" class="btn btn-primary rounded-pill" disabled="true"><i class="fas fa-minus-circle"></i></button>
+                            <input type="text" class="form-control border-0 bg-white text-center" id="submeal-quantity-${2}${i}" name="submeal-quantity" value="0" disabled="true">
+                            <button id="plus-button-${2}${i}" onclick="updateQuantity(1,${mid},${2},${i})" class="btn btn-primary rounded-pill"><i class="fas fa-plus-circle"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center" id="submeals-footer-${2}" data-bs-toggle="modal" data-bs-target="#elementsModal">
+                        <h6 class="meal-title text-uppercase">${meals[mid].submeals[2].ricebeans[i].mealweight} G <i class="fas fa-chevron-right"></i></h6>
+                    </div>
+                </div>
+            </div>`;
+            }
+            submealrows += '</div></div>';
+
+            // SALSA END
+            if(mid != 4) {
+                // SAUCE START
+                submealrows += `<div class="card">
+                        <div class="card-header text-center text-white bg-primary rounded-pill">
+                            SAUCE
+                        </div>
+                        <div class="card-body row">`;
+                        for (let i = 0; i < meals[mid].submeals[3].topitoff.length; i++) {
+                            submealrows += `<div class="col-md-3 col-sm-6 mt-2 submeals-div" id="submeal-${i}">
+                            <div class="card submeals-card" id="submeal-card-${i}">
+                                <div class="card-header text-center">
+                                    <h6 class="meal-title text-uppercase">${meals[mid].submeals[3].topitoff[i].name}</h6>
+                                    </div>
+                                <img src="${meals[mid].submeals[3].topitoff[i].imgpath}" alt="${meals[mid].submeals[3].topitoff[i].name}" height="163" width="163">
+                                <div class="card-body">
+                                    <div class=" input-group">
+                                        <button id="minus-button-${3}${i}" onclick="updateQuantity(-1,${mid},${3},${i})" class="btn btn-primary rounded-pill" disabled="true"><i class="fas fa-minus-circle"></i></button>
+                                        <input type="text" class="form-control border-0 bg-white text-center" id="submeal-quantity-${3}${i}" name="submeal-quantity" value="0" disabled="true">
+                                        <button id="plus-button-${3}${i}" onclick="updateQuantity(1,${mid},${3},${i})" class="btn btn-primary rounded-pill"><i class="fas fa-plus-circle"></i></button>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center" id="submeals-footer-${3}" data-bs-toggle="modal" data-bs-target="#elementsModal">
+                                    <h6 class="meal-title text-uppercase">${meals[mid].submeals[3].topitoff[i].mealweight} G <i class="fas fa-chevron-right"></i></h6>
+                                </div>
+                            </div>
+                        </div>`;
+                        }
+                submealrows += '</div></div>';
+                //SAUCE END
+            }
+            
+
+            document.querySelector('#submeals-container > .submeals-row #submeals-div').innerHTML = submealrows;
+
+            for (let j = 0; j < 3; j++) {
+                let smf = document.querySelectorAll(`#submeals-footer-${j}`);
+                for (let i = 0; i < smf.length; i++) {
+                    smf[i].addEventListener('click', function () {
+                        showSubMealsElements(mid, j, i);
+                    });
+                }
+            }
+            selectedSubMealId = mid;
+            updateQuantity(1,0,0,0);
+            drawChart();
+
+        }
+        function showSubMealsElements(mid, ingid, smid) {
+            let sbmeal_name = "";
+            switch (ingid) {
+                case 0:
+                    sbmeal_name = "includedIngredients";
+                    break;
+                case 1:
+                    sbmeal_name = "fillings";
+                    break;
+                case 2:
+                    sbmeal_name = "ricebeans";
+                    break;
+                case 3:
+                    sbmeal_name = "topitoff";
+                    break;
+            }
+            let sb_card = "";
+            sb_card = `<div class="modal fade" id="elementsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="text-uppercase modal-title" id="staticBackdropLabel">${meals[mid].submeals[ingid][sbmeal_name][smid].name}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>Energy</td>
+                                        <td>${meals[mid].submeals[ingid][sbmeal_name][smid].energy}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Fat</td>
+                                        <td>${meals[mid].submeals[ingid][sbmeal_name][smid].totalfat}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Saturated Fat</td>
+                                        <td>${meals[mid].submeals[ingid][sbmeal_name][smid].saturatedfat}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Carbohydrates</td>
+                                        <td> ${meals[mid].submeals[ingid][sbmeal_name][smid].carbohydrates}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sugars</td>
+                                        <td> ${meals[mid].submeals[ingid][sbmeal_name][smid].sugars}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Protein</td>
+                                        <td> ${meals[mid].submeals[ingid][sbmeal_name][smid].protein}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Salt</td>
+                                        <td> ${meals[mid].submeals[ingid][sbmeal_name][smid].salt}</td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+            document.getElementById('elementsModal-row').innerHTML = sb_card;
+        }
+        function updateQuantity(q, mid, ingid, smid) {
+            let quantity = parseInt(document.getElementById(`submeal-quantity-${ingid}${smid}`).value);
+            quantity += q;
+
+            document.getElementById(`submeal-quantity-${ingid}${smid}`).value = quantity;
+
+            if (quantity == 0) {
+                document.getElementById(`minus-button-${ingid}${smid}`).disabled = true;
+            } else {
+                document.getElementById(`minus-button-${ingid}${smid}`).disabled = false;
+            }
+            updateNutritionObject(mid, smid, q, ingid);
+        }
+        function updateNutritionObject(mid, smid, q, ingid) {
+            let sbmealName = "";
+            switch (ingid) {
+                case 0:
+                    sbmealName = "includedIngredients";
+                    break;
+                case 1:
+                    sbmealName = "fillings";
+                    break;
+                case 2:
+                    sbmealName = "ricebeans";
+                    break;
+                case 3:
+                    sbmealName = "topitoff";
+                    break;
+            }
+
+            TotalNutrition.totalcalories += (meals[mid].submeals[ingid][sbmealName][smid].energy * q);
+            TotalNutrition.totalfat += (meals[mid].submeals[ingid][sbmealName][smid].totalfat * q);
+            TotalNutrition.totalcarbohydrates += (meals[mid].submeals[ingid][sbmealName][smid].carbohydrates * q)
+            TotalNutrition.totalsugars += (meals[mid].submeals[ingid][sbmealName][smid].sugars * q)
+            TotalNutrition.totalprotein += (meals[mid].submeals[ingid][sbmealName][smid].protein * q)
+            TotalNutrition.totalsalt += (meals[mid].submeals[ingid][sbmealName][smid].salt * q)
+
+            /*TotalNutrition.totalcalories += (meals[mid].submeals[1].fillings[smid].energy * q);
+            TotalNutrition.totalfat += (meals[mid].submeals[1].fillings[smid].totalfat * q);
+            TotalNutrition.totalcarbohydrates += (meals[mid].submeals[1].fillings[smid].carbohydrates * q)
+            TotalNutrition.totalsugars += (meals[mid].submeals[1].fillings[smid].sugars * q)
+            TotalNutrition.totalprotein += (meals[mid].submeals[1].fillings[smid].protein * q)
+            TotalNutrition.totalsalt += (meals[mid].submeals[1].fillings[smid].salt * q)*/
+
+
+
+
+            drawChart()
+        }
+        function drawChart() {
+            let myChartCard = `<div class="card shadow sticky-top">
+                    <div class="card-header text-uppercase text-center">
+                        ${meals[selectedSubMealId].name}
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <canvas id="myChart" aria-label="chart" role="img" height="200" width="200"></canvas>
+                        </div>
+
+                        <div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Calories</th>
+                                        <th class="text-end"><span>${TotalNutrition.totalcalories}</span> KCAL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><i style="color:#AA7700;" class="fas fa-circle"></i> Total Fat</td>
+                                        <th class="text-end"><span>${TotalNutrition.totalfat.toFixed(2)}</span> g</th>
+                                    </tr>
+                                    <tr>
+                                        <td><i style="color:#735549;" class="fas fa-circle"></i> Carbohydrtes</td>
+                                        <th class="text-end"><span>${TotalNutrition.totalcarbohydrates.toFixed(2)}</span> g</th>
+                                    </tr>
+                                    <tr>
+                                        <td><i style="color:#C3B4A6;" class="fas fa-circle"></i> Sugars</td>
+                                        <th class="text-end"><span>${TotalNutrition.totalsugars.toFixed(2)}</span> g</th>
+                                    </tr>
+                                    <tr>
+                                        <td><i style="color:#E60000" class="fas fa-circle"></i> Protein</td>
+                                        <th class="text-end"><span>${TotalNutrition.totalprotein.toFixed(2)}</span> g</th>
+                                    </tr>
+                                    <tr>
+                                        <td><i style="color:#008000" class="fas fa-circle"></i> Salt</td>
+                                        <th class="text-end"><span>${TotalNutrition.totalsalt.toFixed(2)}</span> g</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>`;
+            document.getElementById('nutrition-chart').innerHTML = myChartCard;
+
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        label: 'Ingredients',
+                        data: [TotalNutrition.totalfat, TotalNutrition.totalcarbohydrates, TotalNutrition.totalsugars, TotalNutrition.totalprotein, TotalNutrition.totalsalt],
+                        backgroundColor: [
+                            'rgb(182, 130, 7)',
+                            'rgb(120, 98, 89)',
+                            'rgb(195, 180, 166)',
+                            'rgb(255, 0, 0)',
+                            'rgb(0, 128, 0)'
+                        ],
+                        borderWidth: 1
+                    }],
+                },
+                options: {
+                    responsive: false,
+
+                }
+            });
+        }
+    </script>
+    <script>
+        /*
+            { submealid: 0, submealname: 'Minced Beef', imgpath: 'resources/images/minced-beef.jpg', mealweight: 150, energy: 242, totalfat: 18, saturatedfat: 7.9, carbohydrates: 3.2, sugars: 3.2, protein: 16.5, salt: 0.7 },
+            { submealid: 1, submealname: 'Chipotle Sauce', imgpath: 'resources/images/chipotle-sauce.png', mealweight: 10, energy: 3, totalfat: 0, saturatedfat: 0, carbohydrates: 0.3, sugars: 0, protein: 0, salt: 0.1 },
+            { submealid: 2, submealname: 'Grated Cheese', imgpath: 'resources/images/grated-cheese.jpg', mealweight: 20, energy: 76, totalfat: 4.6, saturatedfat: 3.2, carbohydrates: 0.4, sugars: 0, protein: 4.8, salt: 0.4 },
+            { submealid: 3, submealname: 'Rice', imgpath: 'resources/images/rice.jpg', mealweight: 50, energy: 174, totalfat: 0.3, saturatedfat: 0.1, carbohydrates: 39, sugars: 0.2, protein: 3.3, salt: 0.3 },
+            { submealid: 4, submealname: 'Mexican Beans', imgpath: 'resources/images/mexican-beans.jpg', mealweight: 45, energy: 38, totalfat: 0.2, saturatedfat: 0, carbohydrates: 6.6, sugars: 0, protein: 2.4, salt: 0 },
+            { submealid: 5, submealname: 'Sour Cream', imgpath: 'resources/images/sour-cream.jpg', mealweight: 20, energy: 54, totalfat: 5.6, saturatedfat: 3.6, carbohydrates: 0.5, sugars: 0.5, protein: 0.5, salt: 0 },
+            { submealid: 6, submealname: 'Salad', imgpath: 'resources/images/salad.png', mealweight: 30, energy: 8, totalfat: 0.1, saturatedfat: 0, carbohydrates: 1.4, sugars: 0.5, protein: 0.6, salt: 0 },
+            { submealid: 7, submealname: 'Coriander', imgpath: 'resources/images/coriander.jpg', mealweight: 5, energy: 1, totalfat: 0, saturatedfat: 0, carbohydrates: 0, sugars: 0, protein: 0.1, salt: 0 },
+            { submealid: 8, submealname: 'Lime', imgpath: 'resources/images/lime.jpg', mealweight: 5, energy: 1.5, totalfat: 0, saturatedfat: 0, carbohydrates: 0.5, sugars: 0.1, protein: 0, salt: 0 },
+            { submealid: 9, submealname: 'Wheat Tortilla', imgpath: 'resources/images/wheat-tortilla.jpg', mealweight: 100, energy: 248, totalfat: 5.5, saturatedfat: 2.4, carbohydrates: 41.6, sugars: 3.6, protein: 6.8, salt: 1 },
+            { submealid: 10, submealname: 'Pico De Gallo', imgpath: 'resources/images/pico-de-galo.jpg', mealweight: 60, energy: 13, totalfat: 0.2, saturatedfat: 0, carbohydrates: 3, sugars: 2.9, protein: 0.4, salt: 0.9 }
+        */
+        /*
+             { submealid: 0, submealname: 'Minced Beef', imgpath: 'resources/images/minced-beef.jpg', mealweight: 120, energy: 193, totalfat: 14.4, saturatedfat: 6.7, carbohydrates: 2.5, sugars: 2.5, protein: 13.2, salt: 0.6 },
+             { submealid: 1, submealname: 'Grated Cheese', imgpath: 'resources/images/grated-cheese.jpg', mealweight: 50, energy: 157, totalfat: 11.5, saturatedfat: 8, carbohydrates: 1.1, sugars: 0, protein: 12, salt: 1.1 },
+             { submealid: 2, submealname: 'Salsa Verde', imgpath: 'resources/images/salsa-verde.jpg', mealweight: 100, energy: 28, totalfat: 0.3, saturatedfat: 0, carbohydrates: 6, sugars: 6, protein: 0.9, salt: 1.5 },
+             { submealid: 3, submealname: 'Sour Cream', imgpath: 'resources/images/sour-cream.jpg', mealweight: 20, energy: 54, totalfat: 5.6, saturatedfat: 3.6, carbohydrates: 0.5, sugars: 0.5, protein: 0.5, salt: 0 },
+             { submealid: 4, submealname: 'Chipotle Sauce', imgpath: 'resources/images/chipotle-sauce.png', mealweight: 10, energy: 3, totalfat: 0, saturatedfat: 0, carbohydrates: 0.3, sugars: 0, protein: 0, salt: 0.1 },
+             { submealid: 5, submealname: 'Coriander', imgpath: 'resources/images/coriander.jpg', mealweight: 5, energy: 1, totalfat: 0, saturatedfat: 0, carbohydrates: 0, sugars: 0, protein: 0.1, salt: 0 },
+             { submealid: 6, submealname: 'Lime', imgpath: 'resources/images/lime.jpg', mealweight: 5, energy: 1.5, totalfat: 0, saturatedfat: 0, carbohydrates: 0.5, sugars: 0.1, protein: 0, salt: 0 },
+             { submealid: 7, submealname: 'Tortilla Chips', imgpath: 'resources/images/tortilla-chips.jpg', mealweight: 60, energy: 287, totalfat: 12, saturatedfat: 1, carbohydrates: 39, sugars: 0.7, protein: 3.8, salt: 0.5 }
+         */
+        /*
+             { submealid: 0, submealname: 'Seitan', imgpath: 'resources/images/seitan.jpg', mealweight: 120, energy: 325, totalfat: 13.2, saturatedfat: 13.5, carbohydrates: 16, sugars: 0, protein: 35.5, salt: 1.8 },
+             { submealid: 1, submealname: 'Grated Cheese', imgpath: 'resources/images/grated-cheese.jpg', mealweight: 20, energy: 157, totalfat: 11.5, saturatedfat: 3.2, carbohydrates: 1.1, sugars: 0, protein: 12, salt: 1.1 },
+             { submealid: 2, submealname: 'Salsa Verde', imgpath: 'resources/images/salsa-verde.jpg', mealweight: 100, energy: 28, totalfat: 0.3, saturatedfat: 0, carbohydrates: 6, sugars: 6, protein: 0.9, salt: 1.5 },
+             { submealid: 3, submealname: 'Sour Cream', imgpath: 'resources/images/sour-cream.jpg', mealweight: 20, energy: 54, totalfat: 5.6, saturatedfat: 3.6, carbohydrates: 0.5, sugars: 0.5, protein: 0.5, salt: 0 },
+             { submealid: 4, submealname: 'Chipotle Sauce', imgpath: 'resources/images/chipotle-sauce.png', mealweight: 10, energy: 3, totalfat: 0, saturatedfat: 0, carbohydrates: 0.3, sugars: 0, protein: 0, salt: 0.1 },
+             { submealid: 5, submealname: 'Coriander', imgpath: 'resources/images/coriander.jpg', mealweight: 5, energy: 1, totalfat: 0, saturatedfat: 0, carbohydrates: 0, sugars: 0, protein: 0.1, salt: 0 },
+             { submealid: 6, submealname: 'Lime', imgpath: 'resources/images/lime.jpg', mealweight: 5, energy: 1.5, totalfat: 0, saturatedfat: 0, carbohydrates: 0.5, sugars: 0.1, protein: 0, salt: 0 },
+             { submealid: 7, submealname: 'Tortilla Chips', imgpath: 'resources/images/tortilla-chips.jpg', mealweight: 60, energy: 287, totalfat: 12, saturatedfat: 1, carbohydrates: 39, sugars: 0.7, protein: 3.8, salt: 0.5 }
+        */
+
+        /*
+              { submealid: 0, submealname: 'Smoked Tofu', imgpath: 'resources/images/smoked-tofu.png', mealweight: 70, energy: 107, totalfat: 5.5, saturatedfat: 0.7, carbohydrates: 1.4, sugars: 0, protein: 12, salt: 0.8 },
+              { submealid: 1, submealname: 'Pulled Peas', imgpath: 'resources/images/pulled-peas.png', mealweight: 30, energy: 52, totalfat: 1.1, saturatedfat: 0.2, carbohydrates: 0.6, sugars: 0.1, protein: 9.3, salt: 0.7 },
+              { submealid: 2, submealname: 'Pico De Gallo', imgpath: 'resources/images/pico-de-galo.jpg', mealweight: 30, energy: 6.5, totalfat: 0.1, saturatedfat: 0, carbohydrates: 1.5, sugars: 1.5, protein: 0.2, salt: 0.5 },
+              { submealid: 3, submealname: 'Salsa Verde', imgpath: 'resources/images/salsa-verde.jpg', mealweight: 50, energy: 14, totalfat: 0.2, saturatedfat: 0, carbohydrates: 3, sugars: 3, protein: 0.4, salt: 0.7 },
+              { submealid: 4, submealname: 'Corncob', imgpath: 'resources/images/corncob.jpg', mealweight: 112, energy: 134, totalfat: 2.1, saturatedfat: 0.4, carbohydrates: 20.1, sugars: 0, protein: 6, salt: 0 },
+              { submealid: 5, submealname: 'Salad', imgpath: 'resources/images/salad.png', mealweight: 135, energy: 34, totalfat: 0.3, saturatedfat: 0.1, carbohydrates: 6.3, sugars: 2, protein: 2.6, salt: 0 },
+              { submealid: 6, submealname: 'Coriander', imgpath: 'resources/images/coriander.jpg', mealweight: 5, energy: 1, totalfat: 0, saturatedfat: 0, carbohydrates: 0, sugars: 0, protein: 0.1, salt: 0 },
+              { submealid: 7, submealname: 'Lime', imgpath: 'resources/images/lime.jpg', mealweight: 5, energy: 1.5, totalfat: 0, saturatedfat: 0, carbohydrates: 0.5, sugars: 0.1, protein: 0, salt: 0 },
+              { submealid: 8, submealname: 'Olive Oil', imgpath: 'resources/images/olive-oil.jpg', mealweight: 5, energy: 44.2, totalfat: 5, saturatedfat: 0.7, carbohydrates: 0, sugars: 0, protein: 0, salt: 0 }
+         */
+        /*
+              { submealid: 0, submealname: 'Chicken', imgpath: 'resources/images/chicken.jpg', mealweight: 120, energy: 116, totalfat: 4.3, saturatedfat: 1.2, carbohydrates: 1.6, sugars: 1.3, protein: 18, salt: 0.8 },
+              { submealid: 1, submealname: 'Grated Cheese', imgpath: 'resources/images/grated-cheese.jpg', mealweight: 50, energy: 157, totalfat: 11.5, saturatedfat: 8, carbohydrates: 1.1, sugars: 0, protein: 12, salt: 1.1 },
+              { submealid: 2, submealname: 'Guacamole', imgpath: 'resources/images/guacamole.jpg', mealweight: 40, energy: 79, totalfat: 7.8, saturatedfat: 1.1, carbohydrates: 2.7, sugars: 2.4, protein: 1, salt: 0.6 },
+              { submealid: 3, submealname: 'Corn Salsa', imgpath: 'resources/images/corn-salsa.jpg', mealweight: 100, energy: 55, totalfat: 0.2, saturatedfat: 0, carbohydrates: 11, sugars: 11, protein: 2.5, salt: 1.5 },
+              { submealid: 4, submealname: 'Coriander', imgpath: 'resources/images/coriander.jpg', mealweight: 5, energy: 1, totalfat: 0, saturatedfat: 0, carbohydrates: 0, sugars: 0, protein: 0.1, salt: 0 },
+              { submealid: 5, submealname: 'Lime', imgpath: 'resources/images/lime.jpg', mealweight: 5, energy: 1.5, totalfat: 0, saturatedfat: 0, carbohydrates: 0.5, sugars: 0.1, protein: 0, salt: 0 },
+              { submealid: 6, submealname: 'Sour Cream', imgpath: 'resources/images/sour-cream.jpg', mealweight: 20, energy: 54, totalfat: 5.6, saturatedfat: 3.6, carbohydrates: 0.5, sugars: 0.5, protein: 0.5, salt: 0 },
+              { submealid: 7, submealname: 'Wheat Tortilla', imgpath: 'resources/images/wheat-tortilla.jpg', mealweight: 100, energy: 248, totalfat: 5.5, saturatedfat: 2.4, carbohydrates: 41.6, sugars: 3.6, protein: 6.8, salt: 1 }
+         */
+        /*
+              { submealid: 0, submealname: 'Pork Carnitas', imgpath: 'resources/images/pork-carnitas.jpg', mealweight: 150, energy: 277, totalfat: 18, saturatedfat: 7.2, carbohydrates: 0.2, sugars: 0.2, protein: 27, salt: 0.3 },
+              { submealid: 1, submealname: 'Guacamole', imgpath: 'resources/images/guacamole.jpg', mealweight: 60, energy: 119, totalfat: 11.6, saturatedfat: 1.6, carbohydrates: 4.1, sugars: 3.6, protein: 1.6, salt: 0.9 },
+              { submealid: 2, submealname: 'Grated Cheese', imgpath: 'resources/images/grated-cheese.jpg', mealweight: 10, energy: 31, totalfat: 2.3, saturatedfat: 1.6, carbohydrates: 0.2, sugars: 0, protein: 2.4, salt: 0.2 },
+              { submealid: 3, submealname: 'Corncob', imgpath: 'resources/images/corncob.jpg', mealweight: 112, energy: 134, totalfat: 2.1, saturatedfat: 0.4, carbohydrates: 20.1, sugars: 0, protein: 6, salt: 0 },
+              { submealid: 4, submealname: 'Coriander', imgpath: 'resources/images/coriander.jpg', mealweight: 5, energy: 1, totalfat: 0, saturatedfat: 0, carbohydrates: 0, sugars: 0, protein: 0.1, salt: 0 },
+              { submealid: 5, submealname: 'Lime', imgpath: 'resources/images/lime.jpg', mealweight: 5, energy: 1.5, totalfat: 0, saturatedfat: 0, carbohydrates: 0.5, sugars: 0.1, protein: 0, salt: 0 },
+              { submealid: 6, submealname: 'Corn Tortilla', imgpath: 'resources/images/corn-tortilla.jpg', mealweight: 48, energy: 108, totalfat: 1, saturatedfat: 0.1, carbohydrates: 23.2, sugars: 0.3, protein: 2, salt: 0.2 },
+         */
+    </script>
+</body>
+
+</html>
